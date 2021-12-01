@@ -1,4 +1,7 @@
 numpy
 ipywidgets
 nbinteract
+scikit-learn
+scikit_learn
 sklearn
+matplotlib
