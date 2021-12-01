@@ -14035,7 +14035,7 @@ Census year Block ID                   ...
   <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
   <span class="kn">import</span> <span class="nn">warnings</span>
   <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span> <span class="c1">#remove dataframe warning</span>
-  <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;merged_data.csv&#39;</span><span class="p">)</span> <span class="c1">#the dataset that contains all the THREE features (employment, resident &amp; parking)</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://github.com/Tithra/SIT782/blob/main/merged_data.csv&#39;</span><span class="p">)</span> <span class="c1">#the dataset that contains all the THREE features (employment, resident &amp; parking)</span>
   <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;Census year&#39;</span><span class="p">,</span><span class="s1">&#39;Block ID&#39;</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#Turn the data to pandas series</span>
 
   <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">23</span><span class="p">)</span>
