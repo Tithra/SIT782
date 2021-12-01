@@ -13631,6 +13631,8 @@ Total records after grouping (by Block ID) is 9939
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Parking Spaces&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Dwelling Number&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#NOTE: This dataset here (&#39;data&#39;) need to be exported to GitHub and named as &quot;merged_data.csv&quot; to allow interactive (function) to work</span>
 </pre></div>
 
     </div>
@@ -13760,46 +13762,6 @@ Census year Block ID                   ...
 </div>
 
   </div>
-
-  
-
-  <div class="
-      cell border-box-sizing code_cell rendered">
-    <div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">matplotlib</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Requirement already satisfied: matplotlib in /usr/local/lib/python3.7/dist-packages (3.2.2)
-Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib) (3.0.6)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib) (1.3.2)
-Requirement already satisfied: numpy&gt;=1.11 in /usr/local/lib/python3.7/dist-packages (from matplotlib) (1.19.5)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib) (2.8.2)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.7/dist-packages (from matplotlib) (0.11.0)
-Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-packages (from python-dateutil&gt;=2.1-&gt;matplotlib) (1.15.0)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-  </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Predict-the-parking-problem-based-on-the-latest-year-(2020)">Predict the parking problem based on the latest year (2020)<a class="anchor-link" href="#Predict-the-parking-problem-based-on-the-latest-year-(2020)">&#182;</a></h2>
@@ -13822,10 +13784,10 @@ Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-pack
   <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;Total employment in block&#39;</span><span class="p">,</span> <span class="s1">&#39;Dwelling number&#39;</span><span class="p">])</span>
   <span class="n">features_to_include</span> <span class="o">=</span> <span class="n">features</span><span class="p">[[</span><span class="n">Employment</span><span class="p">,</span><span class="n">Residential_dwellings</span><span class="p">]]</span> <span class="c1">#Define the data features for the study</span>
   <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">Model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_latest</span><span class="p">[</span><span class="n">features_to_include</span><span class="p">])))</span> <span class="c1">#Predict based on the selected features</span>
-  <span class="n">data_latest</span><span class="p">[</span><span class="s1">&#39;Predict_parking&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span> <span class="c1">#Add result to the data</span>
+  <span class="n">data_latest</span><span class="p">[</span><span class="s1">&#39;Predict_parking&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="c1">#Add result to the data</span>
   <span class="n">impact</span> <span class="o">=</span> <span class="n">result</span> <span class="o">-</span> <span class="n">data_latest</span><span class="p">[</span><span class="s1">&#39;Parking spaces&#39;</span><span class="p">]</span>
   <span class="n">impact</span><span class="p">[</span><span class="n">impact</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="p">(</span><span class="n">impact</span><span class="p">[</span><span class="n">impact</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">impact</span><span class="p">[</span><span class="n">impact</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">])))</span> <span class="c1"># Normalize the impact index (0-100)</span>
-  <span class="n">data_latest</span><span class="p">[</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">impact</span> <span class="c1">#Add impact index to the data</span>
+  <span class="n">data_latest</span><span class="p">[</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">impact</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="c1">#Add impact index to the data</span>
   <span class="k">return</span> <span class="n">data_latest</span>
 </pre></div>
 
@@ -13883,17 +13845,10 @@ Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-pack
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">#CLUE block map</span>
-<span class="sd">import json</span>
-<span class="sd">json_file = open(&#39;/content/drive/MyDrive/Notebooks/SIT782/CLUE/clue_blocks.geojson&#39;) </span>
-<span class="sd">clue_geo = json.load(json_file)</span>
-
-<span class="sd">#Only take the impacted blocks</span>
-<span class="sd">clue_data = data_latest[data_latest[&#39;Impact_index&#39;]&gt;=min_impact_level].sort_values(&#39;Impact_index&#39;,ascending = False)</span>
-<span class="sd">clue_data.reset_index(inplace=True) #turn the index (Block_ID) into a column in the dataframe (clue_data)</span>
-<span class="sd">clue_data[&#39;Block ID&#39;] = clue_data[&#39;Block ID&#39;].astype(&#39;str&#39;) # conver [Block ID] to str, so that it is compatible with json content</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<div class=" highlight hl-python"><pre><span></span><span class="c1">#Only take the impacted blocks</span>
+<span class="n">clue_data</span> <span class="o">=</span> <span class="n">data_latest</span><span class="p">[</span><span class="n">data_latest</span><span class="p">[</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">min_impact_level</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">,</span><span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">clue_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#turn the index (Block_ID) into a column in the dataframe (clue_data)</span>
+<span class="n">clue_data</span><span class="p">[</span><span class="s1">&#39;Block ID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clue_data</span><span class="p">[</span><span class="s1">&#39;Block ID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">)</span> <span class="c1"># conver [Block ID] to str, so that it is compatible with json content</span>
 </pre></div>
 
     </div>
@@ -13935,8 +13890,15 @@ Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-pack
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">import folium</span>
+<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">plot_map</span><span class="p">(</span><span class="n">Data</span><span class="p">):</span>
+  <span class="kn">import</span> <span class="nn">json</span>
+  <span class="kn">import</span> <span class="nn">folium</span>
+  <span class="c1">#Load the csv and json data for map plotting</span>
+  <span class="n">json_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;https://github.com/Tithra/SIT782/blob/main/clue_blocks.geojson&#39;</span><span class="p">)</span> 
+  <span class="n">clue_geo</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+  <span class="k">return</span> <span class="s1">&#39;Done&#39;</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">#Create the initial map</span>
 <span class="sd">fmap = folium.Map(location=[-37.811600, 144.964610],</span>
 <span class="sd">           tiles=&#39;Stamen Toner&#39;,</span>
@@ -13966,7 +13928,6 @@ Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-pack
 <span class="sd">choropleth.geojson.add_child(folium.features.GeoJsonTooltip([&#39;block_id&#39;,&#39;clue_area&#39;],labels=True))</span>
 <span class="sd">folium.LayerControl().add_to(fmap)</span>
 <span class="sd">fmap</span>
-
 <span class="sd">&#39;&#39;&#39;</span>
 </pre></div>
 
@@ -13985,7 +13946,7 @@ Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-pack
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#34;\nimport folium\n#Create the initial map\nfmap = folium.Map(location=[-37.811600, 144.964610],\n           tiles=&#39;Stamen Toner&#39;,\n           width = &#39;80%&#39;,\n           height = &#39;60%&#39;,\n           zoom_start=13)\n\n#create the choropleth layer and add to the map above\nchoropleth = folium.Choropleth(\n    geo_data=clue_geo,\n    name=&#39;choropleth&#39;,\n    data=clue_data,\n    columns=[&#39;Block ID&#39;,&#39;Impact_index&#39;],\n    key_on=&#39;feature.properties.block_id&#39;,\n    fill_color=&#39;YlOrRd&#39;,\n    fill_opacity=1,\n    line_opacity=0.5,\n    nan_fill_color=&#39;cloud&#39;,\n    nan_fill_opacity = 0.2,\n    highlight=True,\n    legend_name=&#39;Impact index&#39;\n).add_to(fmap)\n\n#Add more layers and tooltips\nfmap.add_tile_layer()\nfmap.add_tile_layer(&#39;Stamen Terrain&#39;)\nchoropleth.geojson.add_child(folium.features.GeoJsonTooltip([&#39;block_id&#39;,&#39;clue_area&#39;],labels=True))\nfolium.LayerControl().add_to(fmap)\nfmap\n\n&#34;</pre>
+<pre>&#34;\n#Create the initial map\nfmap = folium.Map(location=[-37.811600, 144.964610],\n           tiles=&#39;Stamen Toner&#39;,\n           width = &#39;80%&#39;,\n           height = &#39;60%&#39;,\n           zoom_start=13)\n\n#create the choropleth layer and add to the map above\nchoropleth = folium.Choropleth(\n    geo_data=clue_geo,\n    name=&#39;choropleth&#39;,\n    data=clue_data,\n    columns=[&#39;Block ID&#39;,&#39;Impact_index&#39;],\n    key_on=&#39;feature.properties.block_id&#39;,\n    fill_color=&#39;YlOrRd&#39;,\n    fill_opacity=1,\n    line_opacity=0.5,\n    nan_fill_color=&#39;cloud&#39;,\n    nan_fill_opacity = 0.2,\n    highlight=True,\n    legend_name=&#39;Impact index&#39;\n).add_to(fmap)\n\n#Add more layers and tooltips\nfmap.add_tile_layer()\nfmap.add_tile_layer(&#39;Stamen Terrain&#39;)\nchoropleth.geojson.add_child(folium.features.GeoJsonTooltip([&#39;block_id&#39;,&#39;clue_area&#39;],labels=True))\nfolium.LayerControl().add_to(fmap)\nfmap\n&#34;</pre>
 </div>
 
 </div>
@@ -14081,7 +14042,14 @@ Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-pack
   <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
   <span class="kn">import</span> <span class="nn">warnings</span>
   <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span> <span class="c1">#remove dataframe warning</span>
-  <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://github.com/Tithra/SIT782/blob/main/merged_data.csv?raw=true&#39;</span><span class="p">)</span> <span class="c1">#the dataset that contains all the THREE features (employment, resident &amp; parking)</span>
+
+  <span class="kn">import</span> <span class="nn">json</span>
+  <span class="kn">import</span> <span class="nn">folium</span>
+  <span class="c1">#Load the csv and json data for map plotting</span>
+  <span class="n">json_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;clue_blocks.geojson&#39;</span><span class="p">)</span> 
+  <span class="n">clue_geo</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+
+  <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;merged_data.csv&#39;</span><span class="p">)</span> <span class="c1">#the dataset that contains all the THREE features (employment, resident &amp; parking)</span>
   <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;Census year&#39;</span><span class="p">,</span><span class="s1">&#39;Block ID&#39;</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#Turn the data to pandas series</span>
 
   <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">23</span><span class="p">)</span>
@@ -14101,6 +14069,8 @@ Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.7/dist-pack
   <span class="c1">#Show table of the impacted blocks in detail table</span>
   <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1"> The table below shows the impacted blocks (limited parking) by the order of the impact index.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
   <span class="n">display</span><span class="p">(</span><span class="n">predict_results</span><span class="p">[</span><span class="n">predict_results</span><span class="p">[</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">Impact_level</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">,</span><span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">))</span>
+  <span class="c1">#Plot the folium choropleth map</span>
+  
 
 <span class="n">interact_manual</span><span class="o">.</span><span class="n">opts</span><span class="p">[</span><span class="s1">&#39;manual_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Start Analyzing&#39;</span>
 <span class="n">interact_manual</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Year_to_include</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">Employment</span><span class="o">=</span><span class="n">chk_employment</span><span class="p">,</span> <span class="n">Residential_dwellings</span> <span class="o">=</span> <span class="n">chk_resident</span><span class="p">,</span> <span class="n">Impact_level</span> <span class="o">=</span> <span class="n">show_impact</span><span class="p">);</span>
