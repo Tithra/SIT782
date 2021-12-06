@@ -13117,6 +13117,53 @@ div#notebook {
 
 
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p style="font-family: helvetica,arial,sans-serif; font-size:2.0em;color:white; background-color: black">&emsp;
+<b>Use Case: Spotting areas for public transportation planning in City of Melbourne</b></p><p style="font-family: helvetica,arial,sans-serif; font-size:1.6em;color:black; background-color: #DDDDDD; text-align:justify">&emsp;
+    <b>authored by: </b> Tithra Chap ((December 2021)</p><p style="font-family: helvetica,arial,sans-serif; font-size:1.6em;color:white; background-color: black; text-align:right">
+<b>Duration:</b> 120 mins</p><p style="font-family: helvetica,arial,sans-serif; font-size:1.6em;color:black; background-color: #DDDDDD; text-align:justify">
+<b>Level:</b> Intermediate&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<b>Pre-requisite Skills:</b>Python scripting (intermediate), Data analysis (Basic)</p><p><p style="font-family: helvetica,arial,sans-serif; font-size:1.6em;color:white; background-color: black">&emsp;
+<b>Scenario</b></p>
+<p>The City of Melbourne has always evolved, and so have the numbers of its residential dwellings and employment population (based on data available on Melbourne Open Data). Without a consistent or parallel increase of off-street parking, the city will face the difficulty in providing enough spaces for parking of private transportation. To resolve this problem, the city planner needs to locate the potential areas where extension of public transportation should be implemented to replace the need for off-street parking. CLUE datasets contain information of employment, residential dwellings and parking spots of the city blocks. By tracking down the number of employments and residential dwellings in the city blocks and analyze their consistent trends with number of off-street parkings, we can identify the potential blocks that a city planner should pay more attention and ensure that public transportation are sufficient to handle the daily commuting traffic.</p>
+<h2 id="What-this-Use-Case-will-teach-you?">What this Use Case will teach you?<a class="anchor-link" href="#What-this-Use-Case-will-teach-you?">&#182;</a></h2><p>This case study is intended to provide educational instructions of how to use CLUE datasets (Employment by blocks, Residentail dwellings by blocks, and Off-street parking by blocks) to resolve the above analytical problem.
+The key learnings are:</p>
+<ul>
+<li>How to explore the CLUE datasets using <em>pandas profiling</em></li>
+<li>How to clean those CLUE datasets</li>
+<li>How to build linear regression model for this use case</li>
+<li>How to use <em>ipywidgets</em> &amp; <em>bninteract</em> to implement interactivity</li>
+<li>How to link visualization with <em>ipywidgets</em></li>
+</ul>
+<p>NOTE: This use case provides interative tools so that user can experience the interaction with the data, as well as learning how to use the data.</p>
+<h2 id="Walkthrough-steps:">Walkthrough steps:<a class="anchor-link" href="#Walkthrough-steps:">&#182;</a></h2><ol>
+<li>Explore the THREE datasets</li>
+<li>Clean and merge them</li>
+<li>Build analysis model</li>
+<li>Visualize the analytical results</li>
+<li>Develop interactivity</li>
+</ol>
+<h2 id="A-brief-introduction-to-CLUE-data">A brief introduction to CLUE data<a class="anchor-link" href="#A-brief-introduction-to-CLUE-data">&#182;</a></h2><p>The City of Melbourne conducts a comprehensive bi-annual survey of its residents and businesses called the "Census of Land Use and Employment (CLUE)". CLUE captures key information on land use, employment, and economic activity across the City of Melbourne.</p>
+<p>CLUE data assists the City of Melbourne's business planning, policy development and strategic decision making. Investors, consultants, students, urban researchers, property analysts, businesses and developers can take advantage of CLUE to understand customers, the marketplace and the changing form and nature of the city.</p>
+<p>Among many CLUE datasets, this use case employs THREE datasets available at Melbourne Open Data website:</p>
+<ul>
+<li><a href="https://data.melbourne.vic.gov.au/Property/Residential-dwellings/44kh-ty54">Residential Dwellings Dataset 2002-2020</a></li>
+<li><a href="https://data.melbourne.vic.gov.au/Business/Employment-by-block-by-CLUE-industry/b36j-kiy4">Employment by city blocks 2002-2020</a></li>
+<li><a href="https://data.melbourne.vic.gov.au/Transport/Off-street-car-parks-with-capacity-and-type/krh5-hhjn">Off-street car parking 2002-2020</a></li>
+</ul>
+<p><a href="https://data.melbourne.vic.gov.au/Business/Blocks-for-Census-of-Land-Use-and-Employment-CLUE-/aia8-ryiq">CLUE blocks</a> json map is also used for location visualization.</p>
+<p>NOTE: we suggest scanning through data dictionaries of the above datasets at Melbourne Open Data to familiarize yourself beforehand.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Detail-Walkthrough:"><strong>Detail Walkthrough:</strong><a class="anchor-link" href="#Detail-Walkthrough:">&#182;</a></h1><h2 id="1.-Explore-the-datasets"><strong>1. Explore the datasets</strong><a class="anchor-link" href="#1.-Explore-the-datasets">&#182;</a></h2><p>Datasets containing missing values, duplications, inconsistency, exstreme outliers are common problems in real world data. One of the most convenient way to identify these issues is to profile the data using python package <strong><em>pandas-profiling</em></strong>. An exmaple below shows how to read a .csv dataset and generate an html file containing deep profiling detail of <strong><em>Residential Dwelling.csv</em></strong> of CLUE dataset.</p>
+
+</div>
+</div>
+</div>
 
   
 
@@ -13126,96 +13173,27 @@ div#notebook {
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">nbinteract</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pandas_profiling</span>
+<span class="c1">#Residential dwellings data</span>
+<span class="n">resident</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Residential_dwellings.csv&#39;</span><span class="p">)</span>
+<span class="n">resident</span><span class="o">.</span><span class="n">info</span><span class="p">()</span> <span class="c1"># see summary information of the data</span>
+<span class="c1">#profiling the data using pandas-profiling</span>
+<span class="n">report</span> <span class="o">=</span> <span class="n">resident</span><span class="o">.</span><span class="n">profile_report</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;style&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;full_width&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}},</span> <span class="n">progress_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">report</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="s1">&#39;Residential_dwellings_profile.html&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Requirement already satisfied: nbinteract in /usr/local/lib/python3.7/dist-packages (0.2.6)
-Requirement already satisfied: IPython&lt;8,&gt;=6 in /usr/local/lib/python3.7/dist-packages (from nbinteract) (7.30.0)
-Requirement already satisfied: numpy&lt;2,&gt;=1 in /usr/local/lib/python3.7/dist-packages (from nbinteract) (1.19.5)
-Requirement already satisfied: bqplot==0.11.0 in /usr/local/lib/python3.7/dist-packages (from nbinteract) (0.11.0)
-Requirement already satisfied: traitlets&lt;5,&gt;=4.3 in /usr/local/lib/python3.7/dist-packages (from nbinteract) (4.3.3)
-Requirement already satisfied: docopt&lt;1,&gt;=0.6.2 in /usr/local/lib/python3.7/dist-packages (from nbinteract) (0.6.2)
-Requirement already satisfied: nbconvert&gt;=5.3 in /usr/local/lib/python3.7/dist-packages (from nbinteract) (5.6.1)
-Requirement already satisfied: Jinja2&lt;3,&gt;=2.10 in /usr/local/lib/python3.7/dist-packages (from nbinteract) (2.11.3)
-Requirement already satisfied: ipywidgets&lt;8,&gt;=7.5.0 in /usr/local/lib/python3.7/dist-packages (from nbinteract) (7.6.5)
-Requirement already satisfied: toolz&lt;1,&gt;=0.8 in /usr/local/lib/python3.7/dist-packages (from nbinteract) (0.11.2)
-Requirement already satisfied: nbformat&lt;5,&gt;=4.4.0 in /usr/local/lib/python3.7/dist-packages (from nbinteract) (4.4.0)
-Requirement already satisfied: traittypes&gt;=0.0.6 in /usr/local/lib/python3.7/dist-packages (from bqplot==0.11.0-&gt;nbinteract) (0.2.1)
-Requirement already satisfied: pandas in /usr/local/lib/python3.7/dist-packages (from bqplot==0.11.0-&gt;nbinteract) (1.1.5)
-Requirement already satisfied: jedi&gt;=0.16 in /usr/local/lib/python3.7/dist-packages (from IPython&lt;8,&gt;=6-&gt;nbinteract) (0.18.1)
-Requirement already satisfied: backcall in /usr/local/lib/python3.7/dist-packages (from IPython&lt;8,&gt;=6-&gt;nbinteract) (0.2.0)
-Requirement already satisfied: setuptools&gt;=18.5 in /usr/local/lib/python3.7/dist-packages (from IPython&lt;8,&gt;=6-&gt;nbinteract) (57.4.0)
-Requirement already satisfied: matplotlib-inline in /usr/local/lib/python3.7/dist-packages (from IPython&lt;8,&gt;=6-&gt;nbinteract) (0.1.3)
-Requirement already satisfied: pexpect&gt;4.3 in /usr/local/lib/python3.7/dist-packages (from IPython&lt;8,&gt;=6-&gt;nbinteract) (4.8.0)
-Requirement already satisfied: pygments in /usr/local/lib/python3.7/dist-packages (from IPython&lt;8,&gt;=6-&gt;nbinteract) (2.6.1)
-Requirement already satisfied: prompt-toolkit!=3.0.0,!=3.0.1,&lt;3.1.0,&gt;=2.0.0 in /usr/local/lib/python3.7/dist-packages (from IPython&lt;8,&gt;=6-&gt;nbinteract) (3.0.23)
-Requirement already satisfied: pickleshare in /usr/local/lib/python3.7/dist-packages (from IPython&lt;8,&gt;=6-&gt;nbinteract) (0.7.5)
-Requirement already satisfied: decorator in /usr/local/lib/python3.7/dist-packages (from IPython&lt;8,&gt;=6-&gt;nbinteract) (4.4.2)
-Requirement already satisfied: jupyterlab-widgets&gt;=1.0.0 in /usr/local/lib/python3.7/dist-packages (from ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (1.0.2)
-Requirement already satisfied: ipykernel&gt;=4.5.1 in /usr/local/lib/python3.7/dist-packages (from ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (4.10.1)
-Requirement already satisfied: ipython-genutils~=0.2.0 in /usr/local/lib/python3.7/dist-packages (from ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (0.2.0)
-Requirement already satisfied: widgetsnbextension~=3.5.0 in /usr/local/lib/python3.7/dist-packages (from ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (3.5.2)
-Requirement already satisfied: tornado&gt;=4.0 in /usr/local/lib/python3.7/dist-packages (from ipykernel&gt;=4.5.1-&gt;ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (5.1.1)
-Requirement already satisfied: jupyter-client in /usr/local/lib/python3.7/dist-packages (from ipykernel&gt;=4.5.1-&gt;ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (5.3.5)
-Requirement already satisfied: parso&lt;0.9.0,&gt;=0.8.0 in /usr/local/lib/python3.7/dist-packages (from jedi&gt;=0.16-&gt;IPython&lt;8,&gt;=6-&gt;nbinteract) (0.8.2)
-Requirement already satisfied: MarkupSafe&gt;=0.23 in /usr/local/lib/python3.7/dist-packages (from Jinja2&lt;3,&gt;=2.10-&gt;nbinteract) (2.0.1)
-Requirement already satisfied: jupyter-core in /usr/local/lib/python3.7/dist-packages (from nbconvert&gt;=5.3-&gt;nbinteract) (4.9.1)
-Requirement already satisfied: bleach in /usr/local/lib/python3.7/dist-packages (from nbconvert&gt;=5.3-&gt;nbinteract) (4.1.0)
-Requirement already satisfied: pandocfilters&gt;=1.4.1 in /usr/local/lib/python3.7/dist-packages (from nbconvert&gt;=5.3-&gt;nbinteract) (1.5.0)
-Requirement already satisfied: testpath in /usr/local/lib/python3.7/dist-packages (from nbconvert&gt;=5.3-&gt;nbinteract) (0.5.0)
-Requirement already satisfied: defusedxml in /usr/local/lib/python3.7/dist-packages (from nbconvert&gt;=5.3-&gt;nbinteract) (0.7.1)
-Requirement already satisfied: mistune&lt;2,&gt;=0.8.1 in /usr/local/lib/python3.7/dist-packages (from nbconvert&gt;=5.3-&gt;nbinteract) (0.8.4)
-Requirement already satisfied: entrypoints&gt;=0.2.2 in /usr/local/lib/python3.7/dist-packages (from nbconvert&gt;=5.3-&gt;nbinteract) (0.3)
-Requirement already satisfied: jsonschema!=2.5.0,&gt;=2.4 in /usr/local/lib/python3.7/dist-packages (from nbformat&lt;5,&gt;=4.4.0-&gt;nbinteract) (2.6.0)
-Requirement already satisfied: ptyprocess&gt;=0.5 in /usr/local/lib/python3.7/dist-packages (from pexpect&gt;4.3-&gt;IPython&lt;8,&gt;=6-&gt;nbinteract) (0.7.0)
-Requirement already satisfied: wcwidth in /usr/local/lib/python3.7/dist-packages (from prompt-toolkit!=3.0.0,!=3.0.1,&lt;3.1.0,&gt;=2.0.0-&gt;IPython&lt;8,&gt;=6-&gt;nbinteract) (0.2.5)
-Requirement already satisfied: six in /usr/local/lib/python3.7/dist-packages (from traitlets&lt;5,&gt;=4.3-&gt;nbinteract) (1.15.0)
-Requirement already satisfied: notebook&gt;=4.4.1 in /usr/local/lib/python3.7/dist-packages (from widgetsnbextension~=3.5.0-&gt;ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (5.3.1)
-Requirement already satisfied: Send2Trash in /usr/local/lib/python3.7/dist-packages (from notebook&gt;=4.4.1-&gt;widgetsnbextension~=3.5.0-&gt;ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (1.8.0)
-Requirement already satisfied: terminado&gt;=0.8.1 in /usr/local/lib/python3.7/dist-packages (from notebook&gt;=4.4.1-&gt;widgetsnbextension~=3.5.0-&gt;ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (0.12.1)
-Requirement already satisfied: pyzmq&gt;=13 in /usr/local/lib/python3.7/dist-packages (from jupyter-client-&gt;ipykernel&gt;=4.5.1-&gt;ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (22.3.0)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.7/dist-packages (from jupyter-client-&gt;ipykernel&gt;=4.5.1-&gt;ipywidgets&lt;8,&gt;=7.5.0-&gt;nbinteract) (2.8.2)
-Requirement already satisfied: webencodings in /usr/local/lib/python3.7/dist-packages (from bleach-&gt;nbconvert&gt;=5.3-&gt;nbinteract) (0.5.1)
-Requirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from bleach-&gt;nbconvert&gt;=5.3-&gt;nbinteract) (21.3)
-Requirement already satisfied: pyparsing!=3.0.5,&gt;=2.0.2 in /usr/local/lib/python3.7/dist-packages (from packaging-&gt;bleach-&gt;nbconvert&gt;=5.3-&gt;nbinteract) (3.0.6)
-Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.7/dist-packages (from pandas-&gt;bqplot==0.11.0-&gt;nbinteract) (2018.9)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="A-case-study:-using-CLUE-datasets-of-Melbourne-Open-Data">A case study: using CLUE datasets of Melbourne Open Data<a class="anchor-link" href="#A-case-study:-using-CLUE-datasets-of-Melbourne-Open-Data">&#182;</a></h3><h1 id="Where-should-public-transportation-be-enhanced-in-the-city-of-Melbourne?"><strong>Where should public transportation be enhanced in the city of Melbourne?</strong><a class="anchor-link" href="#Where-should-public-transportation-be-enhanced-in-the-city-of-Melbourne?">&#182;</a></h1><p>The City of Melbourne has always evolved, and so have the numbers of its residential dwellings and employment population (based on data available on Melbourne Open Data). Without a consistent or parallel increase of off-street parking, the city will face the difficulty in providing enough spaces for parking of private transportation. To resolve this problem, the city planner needs to locate the potential areas where extension of public transportation should be implemented to replace the need for off-street parking.</p>
-<h2 id="Purpose:">Purpose:<a class="anchor-link" href="#Purpose:">&#182;</a></h2><p>This case study is intended to provide educational instructions of how CLUE datasets can be used for city planners or individuals whose have some knowledge in data analysis.</p>
-<h2 id="Pre-requisite-skills:">Pre-requisite skills:<a class="anchor-link" href="#Pre-requisite-skills:">&#182;</a></h2><ul>
-<li>Python scripting (Basic)</li>
-<li>Data analysis (Basic EDA and visualizations)</li>
-</ul>
-<h2 id="Solution:">Solution:<a class="anchor-link" href="#Solution:">&#182;</a></h2><p>By looking at the population trend of residential dwellings and employments at different Melbourne city blocks, the city planner can project amount of public transportation services necessary to sufficiently accommodate potential travellers to or/and from those city blocks.</p>
+<h2 id="2.-Clean-and-merge-the-datasets"><strong>2. Clean and merge the datasets</strong><a class="anchor-link" href="#2.-Clean-and-merge-the-datasets">&#182;</a></h2><p>CLUE datasets are mainly clean, although there are some issues with missing values and duplicated records. The process below is done to eliminate these problems, and drop unnecessary columns.</p>
+<blockquote><h3 id="Residential-Dwellings-dataset">Residential Dwellings dataset<a class="anchor-link" href="#Residential-Dwellings-dataset">&#182;</a></h3>
+</blockquote>
 
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Working-with-Residential-dwelling-datasets"><strong>Working with Residential dwelling datasets</strong><a class="anchor-link" href="#Working-with-Residential-dwelling-datasets">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -13228,11 +13206,9 @@ Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.7/dist-
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1">#CLUE datasets</span>
-<span class="c1">#======================================================</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="c1">#Residential dwellings data</span>
-<span class="n">resident</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/Notebooks/SIT782/CLUE/Residential_dwellings.csv&#39;</span><span class="p">)</span>
+<span class="n">resident</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Residential_dwellings.csv&#39;</span><span class="p">)</span>
 <span class="c1">#Total records before cleaning</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total records before cleaning is&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">resident</span><span class="p">))</span>
 <span class="c1">#Data cleaning (remove duplicated values)</span>
@@ -13242,7 +13218,7 @@ Requirement already satisfied: pytz&gt;=2017.2 in /usr/local/lib/python3.7/dist-
 <span class="c1">#Select only necessary columns</span>
 <span class="n">selected_columns</span> <span class="o">=</span><span class="p">[</span><span class="s1">&#39;Census year&#39;</span><span class="p">,</span><span class="s1">&#39;Block ID&#39;</span><span class="p">,</span><span class="s1">&#39;CLUE small area&#39;</span><span class="p">,</span><span class="s1">&#39;Dwelling number&#39;</span><span class="p">]</span>
 <span class="n">resident</span> <span class="o">=</span> <span class="n">resident</span><span class="p">[</span><span class="n">selected_columns</span><span class="p">]</span>
-<span class="c1">#Sum the Dwelling number based on Block ID and Year</span>
+<span class="c1">#Sum the [Dwelling number] based on [Block ID] and [Census Year], but keep one [CLUE small area] for each Block ID</span>
 <span class="n">resident_by_block</span> <span class="o">=</span> <span class="n">resident</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;Census year&#39;</span><span class="p">,</span><span class="s1">&#39;Block ID&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s1">&#39;CLUE small area&#39;</span><span class="p">:</span><span class="s1">&#39;max&#39;</span><span class="p">,</span><span class="s1">&#39;Dwelling number&#39;</span><span class="p">:</span><span class="s1">&#39;sum&#39;</span><span class="p">})</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total records after grouping (by Block ID) is&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">resident_by_block</span><span class="p">))</span>
 <span class="c1">#Detail of the residential dwellings by block</span>
@@ -13344,7 +13320,17 @@ Total records after grouping (by Block ID) is 8036
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Working-with-Emploment-datasets"><strong>Working with Emploment datasets</strong><a class="anchor-link" href="#Working-with-Emploment-datasets">&#182;</a></h1>
+<p>As the result, we obtain <strong><em>resident_by_block</em></strong> pandas-series containing 2 columns: "CLUE small area" and "Dwelling number", with "Census year" and "Block ID" as multiple index.</p>
+<p>We repeat similar codes to work on <em>Employment by city blocks</em> and <em>Off-street car parking</em> datasets below:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><h3 id="Employment-by-city-blocks-datasets">Employment by city blocks datasets<a class="anchor-link" href="#Employment-by-city-blocks-datasets">&#182;</a></h3>
+</blockquote>
+
 </div>
 </div>
 </div>
@@ -13357,8 +13343,7 @@ Total records after grouping (by Block ID) is 8036
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1">#Employment data</span>
-<span class="n">employment</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/Notebooks/SIT782/CLUE/Employment_by_block_by_CLUE_industry.csv&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">employment</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Employment_by_block_by_CLUE_industry.csv&#39;</span><span class="p">)</span>
 <span class="c1">#Total records before cleaning</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total records before cleaning is&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">employment</span><span class="p">))</span>
 <span class="c1">#Cleaning the data (remove missing values at [Total employment in block])</span>
@@ -13463,7 +13448,9 @@ Total records after grouping (by Block ID) is 8759
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Working-with-Off-street-Parking-datasets"><strong>Working with Off-street Parking datasets</strong><a class="anchor-link" href="#Working-with-Off-street-Parking-datasets">&#182;</a></h1>
+<blockquote><h3 id="Off-street-car-parking-datasets">Off-street car parking datasets<a class="anchor-link" href="#Off-street-car-parking-datasets">&#182;</a></h3>
+</blockquote>
+
 </div>
 </div>
 </div>
@@ -13476,8 +13463,8 @@ Total records after grouping (by Block ID) is 8759
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1">#Off-street parking data</span>
-<span class="n">parking</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/content/drive/MyDrive/Notebooks/SIT782/CLUE/Off-street_car_parks_with_capacity_and_type.csv&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Off-street parking data</span>
+<span class="n">parking</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Off-street_car_parks_with_capacity_and_type.csv&#39;</span><span class="p">)</span>
 <span class="c1">#Total records before cleaning</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Total records before cleaning is&#39;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">parking</span><span class="p">))</span>
 <span class="c1">#Data cleaning (remove duplicate values)</span>
@@ -13582,13 +13569,7 @@ Total records after grouping (by Block ID) is 9939
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Merge-and-explore-the-3-datasets-(Resident,-Employment,-&amp;-Parking)"><strong>Merge and explore the 3 datasets (Resident, Employment, &amp; Parking)</strong><a class="anchor-link" href="#Merge-and-explore-the-3-datasets-(Resident,-Employment,-&amp;-Parking)">&#182;</a></h1>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Formulate the model to identify a suitable number of parking slots based on residential dwelling or employment.</p>
+<h3 id="Merge-the-clean-datasets-and-plot-the-scatterd-distributions">Merge the clean datasets and plot the scatterd distributions<a class="anchor-link" href="#Merge-the-clean-datasets-and-plot-the-scatterd-distributions">&#182;</a></h3><p>The scatter plots provide insight of linear relationship between dependent variable (Off-street car park) and independent variables (Residential Dwellings , Employment by city block). Learning from this relationship, we can notice whether there is unhealthy distribution that could imply insufficient off-street car parking in the city blocks.</p>
 
 </div>
 </div>
@@ -13602,7 +13583,7 @@ Total records after grouping (by Block ID) is 9939
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -13695,13 +13676,23 @@ Census year Block ID                   ...
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Modeling-and-Analyzing"><strong>Modeling and Analyzing</strong><a class="anchor-link" href="#Modeling-and-Analyzing">&#182;</a></h1>
+<p>We can notice the distributions below the orange lines (regression lines) are likely to have insufficient car parking.</p>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Prepare-the-filtered-data-records">Prepare the filtered data records<a class="anchor-link" href="#Prepare-the-filtered-data-records">&#182;</a></h2>
+<h2 id="3.-Build-analysis-model"><strong>3. Build analysis model</strong><a class="anchor-link" href="#3.-Build-analysis-model">&#182;</a></h2><p>This model uses multiple-varaible linear regression. The model has dependent variable <strong><em>Y</em></strong> as "Off-street car park" and <strong><em>X1</em></strong>, <strong><em>X2</em></strong> as "Residential Dwellings" and "Employment by city block" respectively.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><h3 id="Prepare-the-data-for-model-training">Prepare the data for model training<a class="anchor-link" href="#Prepare-the-data-for-model-training">&#182;</a></h3>
+</blockquote>
+
 </div>
 </div>
 </div>
@@ -13714,7 +13705,7 @@ Census year Block ID                   ...
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1">#Prepare X and Y data for model training</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Prepare X and Y data for model training</span>
 <span class="k">def</span> <span class="nf">Get_data</span><span class="p">(</span><span class="n">Data</span><span class="p">,</span> <span class="n">Year_to_include</span><span class="p">,</span><span class="n">Employment</span><span class="p">,</span><span class="n">Resident_dwellings</span><span class="p">):</span>
   <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
   <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s1">&#39;Total employment in block&#39;</span><span class="p">,</span> <span class="s1">&#39;Dwelling number&#39;</span><span class="p">])</span>
@@ -13733,7 +13724,9 @@ Census year Block ID                   ...
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Build-linear-regression-model">Build linear regression model<a class="anchor-link" href="#Build-linear-regression-model">&#182;</a></h2>
+<blockquote><h3 id="Build-linear-regression-model">Build linear regression model<a class="anchor-link" href="#Build-linear-regression-model">&#182;</a></h3>
+</blockquote>
+
 </div>
 </div>
 </div>
@@ -13746,7 +13739,7 @@ Census year Block ID                   ...
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">lm_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">lm_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
   <span class="kn">import</span> <span class="nn">sklearn</span>
   <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
   <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">IsolationForest</span>
@@ -13764,7 +13757,9 @@ Census year Block ID                   ...
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Predict-the-parking-problem-based-on-the-latest-year-(2020)">Predict the parking problem based on the latest year (2020)<a class="anchor-link" href="#Predict-the-parking-problem-based-on-the-latest-year-(2020)">&#182;</a></h2>
+<blockquote><h3 id="Predict-the-parking-problem-based-on-the-latest-year-(2020)">Predict the parking problem based on the latest year (2020)<a class="anchor-link" href="#Predict-the-parking-problem-based-on-the-latest-year-(2020)">&#182;</a></h3>
+</blockquote>
+
 </div>
 </div>
 </div>
@@ -13777,7 +13772,7 @@ Census year Block ID                   ...
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1">#Predict parking issue in 2020</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Predict parking issue in 2020</span>
 <span class="k">def</span> <span class="nf">Get_predict_result</span><span class="p">(</span><span class="n">Data</span><span class="p">,</span> <span class="n">Model</span><span class="p">,</span> <span class="n">Employment</span><span class="p">,</span> <span class="n">Residential_dwellings</span><span class="p">):</span>
   <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
   <span class="n">data_latest</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">years</span><span class="o">.</span><span class="n">max</span><span class="p">]</span> <span class="c1"># Get data of 2020</span>
@@ -13798,7 +13793,9 @@ Census year Block ID                   ...
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Plot-barchart-of-the-predict-results">Plot barchart of the predict results<a class="anchor-link" href="#Plot-barchart-of-the-predict-results">&#182;</a></h2>
+<h2 id="4.-Visualize-the-analytical-results"><strong>4. Visualize the analytical results</strong><a class="anchor-link" href="#4.-Visualize-the-analytical-results">&#182;</a></h2><blockquote><h3 id="Plot-barchart-of-the-predict-results">Plot barchart of the predict results<a class="anchor-link" href="#Plot-barchart-of-the-predict-results">&#182;</a></h3>
+</blockquote>
+
 </div>
 </div>
 </div>
@@ -13811,13 +13808,15 @@ Census year Block ID                   ...
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1">#visualize the impacted city blocks</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#visualize the impacted city blocks</span>
 <span class="k">def</span> <span class="nf">bar_plot</span><span class="p">(</span><span class="n">Data</span><span class="p">,</span> <span class="n">Impact_level</span><span class="p">):</span>
   <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
   <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+  <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+  <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
   <span class="c1">#Only visualize the blocks greater than the impact level</span>
-  <span class="n">plot_data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">[</span><span class="n">Data</span><span class="p">[</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">Impact_level</span><span class="p">][</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">]</span><span class="c1">#Get only the data records with higher impact level</span>
-  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">plot_data</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
+  <span class="n">plot_data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">[</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">]</span><span class="c1">#Get only the data records with higher impact level</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">plot_data</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
   <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Impact Index (Higher index indicates serious shortage of off-street parking)&#39;</span><span class="p">)</span>
   <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Block ID of Melbourne city&#39;</span><span class="p">)</span>
   <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Impacted Blocks vs. Impact Index</span><span class="se">\n</span><span class="s1"> Shows impact index from &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Impact_level</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; to 100&#39;</span><span class="p">)</span>
@@ -13832,52 +13831,9 @@ Census year Block ID                   ...
   </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Prepare-datasets-for-map-plotting">Prepare datasets for map plotting<a class="anchor-link" href="#Prepare-datasets-for-map-plotting">&#182;</a></h1>
-</div>
-</div>
-</div>
+<blockquote><h3 id="Plot-the-map-using-Folium-Choropleth">Plot the map using Folium Choropleth<a class="anchor-link" href="#Plot-the-map-using-Folium-Choropleth">&#182;</a></h3>
+</blockquote>
 
-  
-
-  <div class="
-      cell border-box-sizing code_cell rendered">
-    <div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1">#Only take the impacted blocks</span>
-<span class="n">clue_data</span> <span class="o">=</span> <span class="n">data_latest</span><span class="p">[</span><span class="n">data_latest</span><span class="p">[</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">min_impact_level</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">,</span><span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
-<span class="n">clue_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#turn the index (Block_ID) into a column in the dataframe (clue_data)</span>
-<span class="n">clue_data</span><span class="p">[</span><span class="s1">&#39;Block ID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clue_data</span><span class="p">[</span><span class="s1">&#39;Block ID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">)</span> <span class="c1"># conver [Block ID] to str, so that it is compatible with json content</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#34;\n#CLUE block map\nimport json\njson_file = open(&#39;/content/drive/MyDrive/Notebooks/SIT782/CLUE/clue_blocks.geojson&#39;) \nclue_geo = json.load(json_file)\n\n#Only take the impacted blocks\nclue_data = data_latest[data_latest[&#39;Impact_index&#39;]&gt;=min_impact_level].sort_values(&#39;Impact_index&#39;,ascending = False)\nclue_data.reset_index(inplace=True) #turn the index (Block_ID) into a column in the dataframe (clue_data)\nclue_data[&#39;Block ID&#39;] = clue_data[&#39;Block ID&#39;].astype(&#39;str&#39;) # conver [Block ID] to str, so that it is compatible with json content\n&#34;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-  </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Plot-the-map-using-Folium-Choropleth">Plot the map using Folium Choropleth<a class="anchor-link" href="#Plot-the-map-using-Folium-Choropleth">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -13890,190 +13846,179 @@ Census year Block ID                   ...
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="k">def</span> <span class="nf">plot_map</span><span class="p">(</span><span class="n">Data</span><span class="p">):</span>
-  <span class="kn">import</span> <span class="nn">json</span>
-  <span class="kn">import</span> <span class="nn">folium</span>
-  <span class="c1">#Load the csv and json data for map plotting</span>
-  <span class="n">json_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;https://github.com/Tithra/SIT782/blob/main/clue_blocks.geojson&#39;</span><span class="p">)</span> 
-  <span class="n">clue_geo</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
-  <span class="k">return</span> <span class="s1">&#39;Done&#39;</span>
-
-<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">#Create the initial map</span>
-<span class="sd">fmap = folium.Map(location=[-37.811600, 144.964610],</span>
-<span class="sd">           tiles=&#39;Stamen Toner&#39;,</span>
-<span class="sd">           width = &#39;80%&#39;,</span>
-<span class="sd">           height = &#39;60%&#39;,</span>
-<span class="sd">           zoom_start=13)</span>
-
-<span class="sd">#create the choropleth layer and add to the map above</span>
-<span class="sd">choropleth = folium.Choropleth(</span>
-<span class="sd">    geo_data=clue_geo,</span>
-<span class="sd">    name=&#39;choropleth&#39;,</span>
-<span class="sd">    data=clue_data,</span>
-<span class="sd">    columns=[&#39;Block ID&#39;,&#39;Impact_index&#39;],</span>
-<span class="sd">    key_on=&#39;feature.properties.block_id&#39;,</span>
-<span class="sd">    fill_color=&#39;YlOrRd&#39;,</span>
-<span class="sd">    fill_opacity=1,</span>
-<span class="sd">    line_opacity=0.5,</span>
-<span class="sd">    nan_fill_color=&#39;cloud&#39;,</span>
-<span class="sd">    nan_fill_opacity = 0.2,</span>
-<span class="sd">    highlight=True,</span>
-<span class="sd">    legend_name=&#39;Impact index&#39;</span>
-<span class="sd">).add_to(fmap)</span>
-
-<span class="sd">#Add more layers and tooltips</span>
-<span class="sd">fmap.add_tile_layer()</span>
-<span class="sd">fmap.add_tile_layer(&#39;Stamen Terrain&#39;)</span>
-<span class="sd">choropleth.geojson.add_child(folium.features.GeoJsonTooltip([&#39;block_id&#39;,&#39;clue_area&#39;],labels=True))</span>
-<span class="sd">folium.LayerControl().add_to(fmap)</span>
-<span class="sd">fmap</span>
-<span class="sd">&#39;&#39;&#39;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#34;\n#Create the initial map\nfmap = folium.Map(location=[-37.811600, 144.964610],\n           tiles=&#39;Stamen Toner&#39;,\n           width = &#39;80%&#39;,\n           height = &#39;60%&#39;,\n           zoom_start=13)\n\n#create the choropleth layer and add to the map above\nchoropleth = folium.Choropleth(\n    geo_data=clue_geo,\n    name=&#39;choropleth&#39;,\n    data=clue_data,\n    columns=[&#39;Block ID&#39;,&#39;Impact_index&#39;],\n    key_on=&#39;feature.properties.block_id&#39;,\n    fill_color=&#39;YlOrRd&#39;,\n    fill_opacity=1,\n    line_opacity=0.5,\n    nan_fill_color=&#39;cloud&#39;,\n    nan_fill_opacity = 0.2,\n    highlight=True,\n    legend_name=&#39;Impact index&#39;\n).add_to(fmap)\n\n#Add more layers and tooltips\nfmap.add_tile_layer()\nfmap.add_tile_layer(&#39;Stamen Terrain&#39;)\nchoropleth.geojson.add_child(folium.features.GeoJsonTooltip([&#39;block_id&#39;,&#39;clue_area&#39;],labels=True))\nfolium.LayerControl().add_to(fmap)\nfmap\n&#34;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-  </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Interactive-Tools-and-Visualizations">Interactive Tools and Visualizations<a class="anchor-link" href="#Interactive-Tools-and-Visualizations">&#182;</a></h2>
-</div>
-</div>
-</div>
-
-  
-
-  <div class="
-      cell border-box-sizing code_cell rendered">
-    <div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1">#Year to include in the study (from 2002 to 2020 or between that)</span>
-<span class="c1">#Create a widget to select the range of study years</span>
-<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact_manual</span>
-<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
-<span class="n">style</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;description_width&#39;</span><span class="p">:</span> <span class="s1">&#39;initial&#39;</span><span class="p">}</span> <span class="c1">#for long label of the widgets</span>
-<span class="c1">#Year-to-include slider</span>
-<span class="n">years</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntRangeSlider</span><span class="p">(</span>
-    <span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="mi">2002</span><span class="p">,</span> <span class="mi">2020</span><span class="p">],</span>
-    <span class="nb">min</span><span class="o">=</span><span class="mi">2002</span><span class="p">,</span>
-    <span class="nb">max</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>
-    <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Years to include:&#39;</span><span class="p">,</span>
-    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">continuous_update</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span>
-    <span class="n">readout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">readout_format</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span>
-    <span class="n">style</span><span class="o">=</span><span class="n">style</span>
-<span class="p">)</span>
-<span class="c1">#Display option: impact level</span>
-<span class="n">show_impact</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">(</span>
-    <span class="n">value</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-    <span class="nb">min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-    <span class="nb">max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Impact index from:&#39;</span><span class="p">,</span>
-    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">continuous_update</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span>
-    <span class="n">readout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">readout_format</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span>
-    <span class="n">style</span><span class="o">=</span><span class="n">style</span>
-<span class="p">)</span>
-<span class="c1">#Employment checkbox</span>
-<span class="n">chk_employment</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Checkbox</span><span class="p">(</span>
-    <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Employment&#39;</span><span class="p">,</span>
-    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">indent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">continuous_updates</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-<span class="c1">#Residential Dwellings checkbox</span>
-<span class="n">chk_resident</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Checkbox</span><span class="p">(</span>
-    <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Residential Dwellings&#39;</span><span class="p">,</span>
-    <span class="n">disabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">indent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">continuous_update</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-  </div>
-
-  
-
-  <div class="
-      cell border-box-sizing code_cell rendered">
-    <div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-python"><pre><span></span><span class="c1">#Define function to execute when using interactive tools</span>
-<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">Year_to_include</span><span class="p">,</span><span class="n">Employment</span><span class="p">,</span><span class="n">Residential_dwellings</span><span class="p">,</span> <span class="n">Impact_level</span><span class="p">):</span>
-  <span class="c1">#Must import libraries and datasets for a self-contain function</span>
-  <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-  <span class="kn">import</span> <span class="nn">warnings</span>
-  <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span> <span class="c1">#remove dataframe warning</span>
-
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plot_map</span><span class="p">(</span><span class="n">clue_data</span><span class="p">):</span>
   <span class="kn">import</span> <span class="nn">json</span>
   <span class="kn">import</span> <span class="nn">folium</span>
   <span class="c1">#Load the csv and json data for map plotting</span>
   <span class="n">json_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;clue_blocks.geojson&#39;</span><span class="p">)</span> 
   <span class="n">clue_geo</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
 
-  <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;merged_data.csv&#39;</span><span class="p">)</span> <span class="c1">#the dataset that contains all the THREE features (employment, resident &amp; parking)</span>
-  <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;Census year&#39;</span><span class="p">,</span><span class="s1">&#39;Block ID&#39;</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#Turn the data to pandas series</span>
+  <span class="n">clue_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#turn the index (Block_ID) into a column in the dataframe (clue_data)</span>
+  <span class="n">clue_data</span><span class="p">[</span><span class="s1">&#39;Block ID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">clue_data</span><span class="p">[</span><span class="s1">&#39;Block ID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="c1"># conver [Block ID] to str, so that it is compatible with json content</span>
 
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">23</span><span class="p">)</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|DATA ANALYSIS RESULTS|&#39;</span><span class="p">)</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">23</span><span class="p">)</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;(NOTE: The city blocks without parking information available are ignored by our analyzing model.</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
-  <span class="k">if</span> <span class="p">(</span><span class="ow">not</span><span class="p">(</span><span class="n">Employment</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="ow">not</span><span class="p">(</span><span class="n">Residential_dwellings</span><span class="p">)):</span>
-    <span class="n">Employment</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1">#Prevent both data features are unticked ==&gt; Error</span>
-  <span class="c1">#Get the filtered data for analysis</span>
-  <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">Get_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">Year_to_include</span><span class="p">,</span><span class="n">Employment</span><span class="p">,</span><span class="n">Residential_dwellings</span><span class="p">)</span>
-  <span class="c1">#Build regression model</span>
-  <span class="n">lm</span> <span class="o">=</span> <span class="n">lm_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">)</span>
-  <span class="c1">#Get the predicted results</span>
-  <span class="n">predict_results</span> <span class="o">=</span> <span class="n">Get_predict_result</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">lm</span><span class="p">,</span> <span class="n">Employment</span><span class="p">,</span> <span class="n">Residential_dwellings</span><span class="p">)</span>
-  <span class="c1">#Plot the barchart of the predicted results</span>
-  <span class="n">bar_plot</span><span class="p">(</span><span class="n">predict_results</span><span class="p">,</span> <span class="n">Impact_level</span><span class="p">);</span>
-  <span class="c1">#Show table of the impacted blocks in detail table</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1"> The table below shows the impacted blocks (limited parking) by the order of the impact index.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-  <span class="n">display</span><span class="p">(</span><span class="n">predict_results</span><span class="p">[</span><span class="n">predict_results</span><span class="p">[</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">Impact_level</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">,</span><span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">))</span>
-  <span class="c1">#Plot the folium choropleth map</span>
+  <span class="c1">#Create the initial map</span>
+  <span class="n">fmap</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">37.811600</span><span class="p">,</span> <span class="mf">144.964610</span><span class="p">],</span>
+            <span class="n">tiles</span> <span class="o">=</span> <span class="s1">&#39;Stamen Toner&#39;</span><span class="p">,</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="s1">&#39;70%&#39;</span><span class="p">,</span>
+            <span class="n">height</span> <span class="o">=</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+            <span class="n">zoom_start</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+
+  <span class="c1">#create the choropleth layer and add to the map above</span>
+  <span class="n">choropleth</span> <span class="o">=</span> <span class="n">folium</span><span class="o">.</span><span class="n">Choropleth</span><span class="p">(</span>
+      <span class="n">geo_data</span><span class="o">=</span><span class="n">clue_geo</span><span class="p">,</span>
+      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;choropleth&#39;</span><span class="p">,</span>
+      <span class="n">data</span><span class="o">=</span><span class="n">clue_data</span><span class="p">,</span>
+      <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Block ID&#39;</span><span class="p">,</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">],</span>
+      <span class="n">key_on</span><span class="o">=</span><span class="s1">&#39;feature.properties.block_id&#39;</span><span class="p">,</span>
+      <span class="n">fill_color</span><span class="o">=</span><span class="s1">&#39;YlOrRd&#39;</span><span class="p">,</span>
+      <span class="n">fill_opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+      <span class="n">line_opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+      <span class="n">nan_fill_color</span><span class="o">=</span><span class="s1">&#39;cloud&#39;</span><span class="p">,</span>
+      <span class="n">nan_fill_opacity</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+      <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+      <span class="n">legend_name</span><span class="o">=</span><span class="s1">&#39;Impact index&#39;</span>
+  <span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">fmap</span><span class="p">)</span>
+
+  <span class="c1">#Add more layers and tooltips</span>
+  <span class="n">choropleth</span><span class="o">.</span><span class="n">geojson</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">folium</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">GeoJsonTooltip</span><span class="p">([</span><span class="s1">&#39;block_id&#39;</span><span class="p">,</span><span class="s1">&#39;clue_area&#39;</span><span class="p">],</span><span class="n">labels</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">fmap</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+  </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="5.-Develop-interactivity"><strong>5. Develop interactivity</strong><a class="anchor-link" href="#5.-Develop-interactivity">&#182;</a></h2><p>To have interactivity on Python notebook online, we need third party server to compile the Python notebook codes. In the replacement of local Jupyter notebook engine (used for locally run the Python notebook), Binder server provides that free service for Jupiter notebook community. What you need to do is:</p>
+<ol>
+<li>Create a public GitHun account</li>
+<li>Store your Python notebook file there</li>
+<li>Install nbinteract in your Jupyter notebook environment (pip install nbinteract)</li>
+<li>On Jupyter notebook commandline, change drive to GitHub clone folder (where your Python notebook located)</li>
+<li>run "nbinteract init" to create "requirements.txt" to tell Binder server the dependancies your Python notebook needs</li>
+<li>run "nbinteract YourNotebookFile.ipynb" to create "YourNoteFile.html"</li>
+</ol>
+<p>This <a href="https://www.youtube.com/watch?v=jln6h-dE2-0">demonstration tutorial</a> provides more insight of the <em>nbinteract</em>.</p>
+<blockquote><h3 id="Build-interactive-widgets-using-ipywidget">Build interactive widgets using ipywidget<a class="anchor-link" href="#Build-interactive-widgets-using-ipywidget">&#182;</a></h3>
+</blockquote>
+
+</div>
+</div>
+</div>
+
   
 
+  <div class="
+      cell border-box-sizing code_cell rendered">
+    <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Create a widget to select the range of study years</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">widgets</span>
+<span class="n">style</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;description_width&#39;</span><span class="p">:</span> <span class="s1">&#39;initial&#39;</span><span class="p">}</span> <span class="c1">#for long label of the widgets</span>
+<span class="c1">#Year-to-include slider</span>
+<span class="n">years</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntRangeSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="mi">2002</span><span class="p">,</span> <span class="mi">2020</span><span class="p">],</span> <span class="nb">min</span><span class="o">=</span><span class="mi">2002</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Years to include:&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">)</span>
+<span class="c1">#Display option: impact level</span>
+<span class="n">show_impact</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">IntSlider</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Impact index from:&#39;</span><span class="p">,</span><span class="n">style</span><span class="o">=</span><span class="n">style</span><span class="p">)</span>
+<span class="c1">#Employment checkbox</span>
+<span class="n">chk_employment</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Checkbox</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Employment&#39;</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1">#Residential Dwellings checkbox</span>
+<span class="n">chk_resident</span> <span class="o">=</span> <span class="n">widgets</span><span class="o">.</span><span class="n">Checkbox</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Residential Dwellings&#39;</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="kc">False</span> <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+  </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><h3 id="Main-function-for-interactivity">Main function for interactivity<a class="anchor-link" href="#Main-function-for-interactivity">&#182;</a></h3>
+</blockquote>
+
+</div>
+</div>
+</div>
+
+  
+
+  <div class="
+      cell border-box-sizing code_cell rendered">
+    <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Define function to execute when using interactive tools</span>
+<span class="k">def</span> <span class="nf">show_interaction</span><span class="p">(</span><span class="n">Year_to_include</span><span class="p">,</span><span class="n">Employment</span><span class="p">,</span><span class="n">Residential_dwellings</span><span class="p">,</span> <span class="n">Impact_level</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+    <span class="c1">#Must import libraries and datasets for a self-contain function</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span> <span class="c1">#suppress dataframe warning</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;merged_data.csv&#39;</span><span class="p">)</span> <span class="c1">#the dataset that contains all the THREE features (employment, resident &amp; parking)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;Census year&#39;</span><span class="p">,</span><span class="s1">&#39;Block ID&#39;</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#Turn the data to pandas series</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">23</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;|DATA ANALYSIS RESULTS|&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="mi">23</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;(NOTE: The city blocks without parking information available are ignored by our analyzing model.</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span><span class="p">(</span><span class="n">Employment</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="ow">not</span><span class="p">(</span><span class="n">Residential_dwellings</span><span class="p">)):</span>
+        <span class="n">Employment</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1">#Prevent both data features are unticked ==&gt; Error</span>
+    <span class="c1">#Get the filtered data for analysis</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">Get_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">Year_to_include</span><span class="p">,</span><span class="n">Employment</span><span class="p">,</span><span class="n">Residential_dwellings</span><span class="p">)</span>
+    <span class="c1">#Build regression model</span>
+    <span class="n">lm</span> <span class="o">=</span> <span class="n">lm_model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">)</span>
+    <span class="c1">#Get the predicted results</span>
+    <span class="n">predict_results</span> <span class="o">=</span> <span class="n">Get_predict_result</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">lm</span><span class="p">,</span> <span class="n">Employment</span><span class="p">,</span> <span class="n">Residential_dwellings</span><span class="p">)</span>
+    <span class="n">predict_results</span> <span class="o">=</span> <span class="n">predict_results</span><span class="p">[</span><span class="n">predict_results</span><span class="p">[</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">Impact_level</span><span class="p">]</span> <span class="c1">#only plot city block that have higher impact level</span>
+
+    <span class="c1">#Plot the barchart of the predicted results</span>
+    <span class="n">bar_plot</span><span class="p">(</span><span class="n">predict_results</span><span class="p">,</span> <span class="n">Impact_level</span><span class="p">);</span>
+    <span class="c1">#Show table of the impacted blocks in detail table</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1"> The table below shows the impacted blocks (limited parking) by the order of the impact index.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">predict_results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;Impact_index&#39;</span><span class="p">,</span><span class="n">ascending</span> <span class="o">=</span> <span class="kc">False</span><span class="p">))</span>
+    <span class="c1">#Plot the folium choropleth map</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The impacted city blocks can be seen via the map here:&#39;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">plot_map</span><span class="p">(</span><span class="n">predict_results</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+  </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<blockquote><h3 id="Demo-Interactivity">Demo Interactivity<a class="anchor-link" href="#Demo-Interactivity">&#182;</a></h3><p>With interactivity, a city planner can try to spot the city blocks that are likely to have insufficient parking but having high density of employments and residential dwellings.</p>
+<p>Interactivity options:</p>
+<ul>
+<li><strong><em>Years to include</em></strong> - Determines the census data (in year) to be included in the analysis</li>
+<li><strong><em>Employment check</em></strong> - Ticked to include "Employment by city block" dataset in the analysis</li>
+<li><strong><em>Residential Dwellings check</em></strong> - Ticked to include "Residential Dwellings" dataset in the analysis</li>
+<li><strong><em>Impact index from</em></strong> - Filter out the block areas that have minor parking insufficient problem (lower than the selected <strong><em>Impact index</em></strong>)</li>
+</ul>
+</blockquote>
+<p>NOTE: If both <strong><em>Employment</em></strong> and <strong><em>Residential Dwellings</em></strong> are unchecked, <strong><em>Employment</em></strong> will be automatically used for analysis.</p>
+
+</div>
+</div>
+</div>
+
+  
+
+  <div class="
+      cell border-box-sizing code_cell rendered">
+    <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Display the interactive tools</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact_manual</span>
 <span class="n">interact_manual</span><span class="o">.</span><span class="n">opts</span><span class="p">[</span><span class="s1">&#39;manual_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Start Analyzing&#39;</span>
-<span class="n">interact_manual</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">Year_to_include</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">Employment</span><span class="o">=</span><span class="n">chk_employment</span><span class="p">,</span> <span class="n">Residential_dwellings</span> <span class="o">=</span> <span class="n">chk_resident</span><span class="p">,</span> <span class="n">Impact_level</span> <span class="o">=</span> <span class="n">show_impact</span><span class="p">);</span>
+<span class="n">interact_manual</span><span class="p">(</span><span class="n">show_interaction</span><span class="p">,</span> <span class="n">Year_to_include</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">Employment</span><span class="o">=</span><span class="n">chk_employment</span><span class="p">,</span> <span class="n">Residential_dwellings</span> <span class="o">=</span> <span class="n">chk_resident</span><span class="p">,</span> <span class="n">Impact_level</span> <span class="o">=</span> <span class="n">show_impact</span><span class="p">);</span>
 </pre></div>
 
     </div>
